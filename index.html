@@ -1,0 +1,3009 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Générateur de Réponses - NationsGlory Black</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #0d0d0e;
+      --primary-light: #2a2a2d;
+      --primary-dark: #050506;
+      --secondary: #000000;
+      --secondary-light: #333333;
+      --accent: #1a1a1a;
+      --dark: #121212;
+      --darker: #080808;
+      --light: #f5f5f5;
+      --grey: #9e9e9e;
+      --danger: #f44336;
+      --warning: #ff9800;
+      --success: #4caf50;
+      --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), 0 5px 15px rgba(0, 0, 0, 0.22);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      --neon-glow: 0 0 10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', 'Segoe UI', sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+      color: var(--light);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding-bottom: 40px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 25px 0;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(0, 0, 0, 0.1) 0%, transparent 70%);
+      transform: rotate(30deg);
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      background: var(--secondary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--neon-glow);
+    }
+    
+    .logo-icon i {
+      font-size: 1.8rem;
+      color: white;
+    }
+    
+    .logo-text h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      background: linear-gradient(to right, #fff, #333);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .logo-text p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      color: var(--grey);
+    }
+    
+    .main-content {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .sidebar {
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+      border-radius: 15px;
+      box-shadow: var(--card-shadow);
+      padding: 25px;
+      height: fit-content;
+      position: sticky;
+      top: 30px;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+    }
+    
+    .tab-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .tab-btn {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 15px 20px;
+      background: transparent;
+      border: none;
+      border-radius: 12px;
+      text-align: left;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--light);
+      font-weight: 500;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .tab-btn::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 4px;
+      background: var(--secondary);
+      opacity: 0;
+      transition: var(--transition);
+    }
+    
+    .tab-btn:hover {
+      background: rgba(0, 0, 0, 0.15);
+      transform: translateX(5px);
+    }
+    
+    .tab-btn:hover::before {
+      opacity: 1;
+    }
+    
+    .tab-btn.active {
+      background: rgba(0, 0, 0, 0.25);
+      color: white;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .tab-btn.active::before {
+      opacity: 1;
+      background: var(--secondary);
+    }
+    
+    .tab-btn i {
+      width: 20px;
+      text-align: center;
+      font-size: 1.2rem;
+      color: var(--secondary-light);
+    }
+    
+    .content-area {
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+      border-radius: 15px;
+      box-shadow: var(--card-shadow);
+      padding: 30px;
+      min-height: 600px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+    }
+    
+    .content-area::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at top right, rgba(0, 0, 0, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .tab-header {
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .tab-header h2 {
+      font-size: 1.8rem;
+      color: var(--light);
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    
+    .tab-header p {
+      color: var(--grey);
+      font-size: 1.05rem;
+    }
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 25px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 500;
+      color: var(--light);
+      font-size: 1.05rem;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 15px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: var(--transition);
+      background: rgba(0, 0, 0, 0.2);
+      color: var(--light);
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.3);
+    }
+    
+    select.form-control {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 15px center;
+      background-size: 16px;
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      padding: 15px 25px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .btn:active {
+      transform: translateY(0);
+    }
+    
+    .btn-primary {
+      background: var(--secondary);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: var(--secondary-light);
+      box-shadow: var(--neon-glow);
+    }
+    
+    .btn-secondary {
+      background: var(--accent);
+      color: white;
+    }
+    
+    .btn-secondary:hover {
+      background: #333;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+    
+    .output-container {
+      margin-top: 35px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      padding: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+    }
+    
+    .output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .output-title {
+      font-weight: 600;
+      color: var(--light);
+      font-size: 1.2rem;
+    }
+    
+    #output {
+      white-space: pre-wrap;
+      line-height: 1.7;
+      font-family: 'Fira Code', 'Consolas', monospace;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      border-radius: 10px;
+      max-height: 400px;
+      overflow-y: auto;
+      font-size: 1.05rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--light);
+    }
+    
+    .missile-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 12px;
+      margin-top: 15px;
+    }
+    
+    .missile-item {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 15px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: center;
+      transition: var(--transition);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-weight: 500;
+    }
+    
+    .missile-item:hover {
+      background: rgba(0, 0, 0, 0.2);
+      transform: translateY(-3px);
+    }
+    
+    .missile-item.selected {
+      background: var(--secondary);
+      color: white;
+      border-color: var(--secondary);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .missile-count {
+      width: 70px;
+      margin-left: 10px;
+      padding: 10px;
+      text-align: center;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(0, 0, 0, 0.2);
+      color: var(--light);
+    }
+    
+    .montant-auto {
+      color: var(--success);
+      font-weight: bold;
+    }
+    
+    .points-list {
+      margin-top: 15px;
+    }
+    
+    .point-item {
+      display: flex;
+      margin-bottom: 12px;
+    }
+    
+    .point-input {
+      flex-grow: 1;
+      margin-right: 12px;
+    }
+    
+    .add-point-btn {
+      padding: 10px 18px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .add-point-btn:hover {
+      background: #333;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      padding: 25px;
+      color: var(--grey);
+      font-size: 0.95rem;
+    }
+    
+    .notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      background: var(--secondary);
+      color: white;
+      border-radius: 10px;
+      box-shadow: var(--neon-glow);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: var(--transition);
+      z-index: 1000;
+    }
+    
+    .notification.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    @media (max-width: 900px) {
+      .main-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .sidebar {
+        position: relative;
+        top: 0;
+        margin-bottom: 20px;
+      }
+      
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .header-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+      }
+      
+      .logo {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <div class="logo-icon">
+            <i class="fas fa-scroll"></i>
+          </div>
+          <div class="logo-text">
+            <h1>Générateur de Réponses</h1>
+            <p>NationsGlory Black - Outil de modération</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="main-content">
+      <div class="sidebar">
+        <div class="tab-buttons">
+          <button class="tab-btn active" onclick="openTab('plainte')">
+            <i class="fas fa-gavel"></i> Plainte
+          </button>
+          <button class="tab-btn" onclick="openTab('attente')">
+            <i class="fas fa-clock"></i> Mise en attente
+          </button>
+          <button class="tab-btn" onclick="openTab('refus')">
+            <i class="fas fa-times-circle"></i> Refus
+          </button>
+          <button class="tab-btn" onclick="openTab('payee')">
+            <i class="fas fa-check-circle"></i> Plainte payée
+          </button>
+          <button class="tab-btn" onclick="openTab('guerre')">
+            <i class="fas fa-fist-raised"></i> Guerre
+          </button>
+          <button class="tab-btn" onclick="openTab('candidature')">
+            <i class="fas fa-user-plus"></i> Candidature
+          </button>
+          <button class="tab-btn" onclick="openTab('appel')">
+            <i class="fas fa-balance-scale"></i> Cour d'appel
+          </button>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <!-- ONGLET PLAINTE -->
+        <div id="plainte" class="tab-content active">
+          <div class="tab-header">
+            <h2>Générer une plainte</h2>
+            <p>Remplissez les informations ci-dessous pour générer une réponse de plainte.</p>
+          </div>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="accuse"><i class="fas fa-user-slash"></i> Pseudo de l'accusé :</label>
+              <input type="text" id="accuse" class="form-control" placeholder="@JoueurAccusé">
+            </div>
+            
+            <div class="form-group">
+              <label for="victime"><i class="fas fa-user-injured"></i> Pseudo de la victime :</label>
+              <input type="text" id="victime" class="form-control" placeholder="@JoueurVictime">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="pseudo"><i class="fas fa-user-shield"></i> Votre pseudo modérateur :</label>
+            <input type="text" id="pseudo" class="form-control" placeholder="VotrePseudo">
+          </div>
+          
+          <div class="form-group">
+            <label for="raison"><i class="fas fa-exclamation-triangle"></i> Type d'infraction :</label>
+            <select id="raison" class="form-control">
+              <option value="">-- Sélectionnez --</option>
+              <option value="Use Bug">Use Bug</option>
+              <option value="TNT Illégal">TNT Illégal</option>
+              <option value="Abus de portail">Abus de portail</option>
+              <option value="Kick Kill">Kick Kill</option>
+              <option value="Back Safezone">Back Safezone</option>
+              <option value="Trahison à explosif">Trahison à explosif</option>
+              <option value="Focus nouveau joueur">Focus nouveau joueur</option>
+              <option value="Assaut illégal">Assaut illégal</option>
+              <option value="TP Combat">TP Combat</option>
+              <option value="Back No-Stuff">Back No-Stuff</option>
+              <option value="Piège illégal">Piège illégal</option>
+              <option value="Claim Combat">Claim Combat</option>
+              <option value="Entrave Assaut">Entrave Assaut</option>
+              <option value="Non respect règles warzone">Non respect règles warzone</option>
+              <option value="Vagabondage">Vagabondage</option>
+              <option value="Missile illégal">Missile illégal</option>
+              <option value="Boost Fs/MMR/R&D">Boost Fs/MMR/R&D</option>
+            </select>
+          </div>
+          
+          <div class="action-buttons">
+            <button class="btn btn-primary" onclick="genererPlainte()">
+              <i class="fas fa-code"></i> Générer la réponse
+            </button>
+            <button class="btn btn-secondary" onclick="copierReponse()">
+              <i class="fas fa-copy"></i> Copier
+            </button>
+          </div>
+          
+          <div class="output-container">
+            <div class="output-header">
+              <span class="output-title">Résultat généré :</span>
+            </div>
+            <div id="output">La réponse apparaîtra ici après avoir cliqué sur "Générer la réponse".</div>
+          </div>
+        </div>
+        
+        <!-- ONGLET MISE EN ATTENTE -->
+        <div id="attente" class="tab-content">
+          <div class="tab-header">
+            <h2>Mise en attente</h2>
+            <p>Générez un message de mise en attente d'une plainte.</p>
+          </div>
+          
+          <div class="form-group">
+            <label for="attente-victime"><i class="fas fa-user-injured"></i> Pseudo de la victime :</label>
+            <input type="text" id="attente-victime" class="form-control" placeholder="@JoueurVictime">
+          </div>
+          
+          <div class="form-group">
+            <label for="attente-pseudo"><i class="fas fa-user-shield"></i> Votre pseudo modérateur :</label>
+            <input type="text" id="attente-pseudo" class="form-control" placeholder="VotrePseudo">
+          </div>
+          
+          <div class="form-group">
+            <label for="attente-raison"><i class="fas fa-exclamation-circle"></i> Raison de l'attente :</label>
+            <input type="text" id="attente-raison" class="form-control" placeholder="Fournir des preuves supplémentaires">
+          </div>
+          
+          <div class="action-buttons">
+            <button class="btn btn-primary" onclick="genererAttente()">
+              <i class="fas fa-code"></i> Générer la réponse
+            </button>
+            <button class="btn btn-secondary" onclick="copierReponse()">
+              <i class="fas fa-copy"></i> Copier
+            </button>
+          </div>
+          
+          <div class="output-container">
+            <div class="output-header">
+              <span class="output-title">Résultat généré :</span>
+            </div>
+            <div id="output-attente">Le message de mise en attente apparaîtra ici.</div>
+          </div>
+        </div>
+        
+        <!-- ONGLET REFUS -->
+        <div id="refus" class="tab-content">
+          <div class="tab-header">
+            <h2>Refus de plainte</h2>
+            <p>Générez un message de refus de plainte.</p>
+          </div>
+          
+          <div class="form-group">
+            <label for="refus-victime"><i class="fas fa-user-injured"></i> Pseudo de la victime :</label>
+            <input type="text" id="refus-victime" class="form-control" placeholder="@JoueurVictime">
+          </div>
+          
+          <div class="form-group">
+            <label for="refus-pseudo"><i class="fas fa-user-shield"></i> Votre pseudo modérateur :</label>
+            <input type="text" id="refus-pseudo" class="form-control" placeholder="VotrePseudo">
+          </div>
+          
+          <div class="form-group">
+            <label for="refus-raison"><i class="fas fa-exclamation-circle"></i> Raison du refus :</label>
+            <input type="text" id="refus-raison" class="form-control" placeholder="Preuves insuffisantes">
+          </div>
+          
+          <div class="action-buttons">
+            <button class="btn btn-primary" onclick="genererRefus()">
+              <i class="fas fa-code"></i> Générer la réponse
+            </button>
+            <button class="btn btn-secondary" onclick="copierReponse()">
+              <i class="fas fa-copy"></i> Copier
+            </button>
+          </div>
+          
+          <div class="output-container">
+            <div class="output-header">
+              <span class="output-title">Résultat généré :</span>
+            </div>
+            <div id="output-refus">Le message de refus apparaîtra ici.</div>
+          </div>
+        </div>
+        
+        <!-- ONGLET PLAINTE PAYEE -->
+        <div id="payee" class="tab-content">
+          <div class="tab-header">
+            <h2>Plainte payée et traitée</h2>
+            <p>Générez un message de plainte payée et traitée.</p>
+          </div>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="payee-accuse"><i class="fas fa-user-slash"></i> Pseudo de l'accusé :</label>
+              <input type="text" id="payee-accuse" class="form-control" placeholder="@JoueurAccusé">
+            </div>
+            
+            <div class="form-group">
+              <label for="payee-victime"><i class="fas fa-user-injured"></i> Pseudo de la victime :</label>
+              <input type="text" id="payee-victime" class="form-control" placeholder="@JoueurVictime">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="payee-pseudo"><i class="fas fa-user-shield"></i> Votre pseudo modérateur :</label>
+            <input type="text" id="payee-pseudo" class="form-control" placeholder="VotrePseudo">
+          </div>
+          
+          <div class="form-group">
+            <label for="payee-raison"><i class="fas fa-exclamation-triangle"></i> Type d'infraction :</label>
+            <input type="text" id="payee-raison" class="form-control" placeholder="Use Bug">
+          </div>
+          
+          <div class="action-buttons">
+            <button class="btn btn-primary" onclick="genererPayee()">
+              <i class="fas fa-code"></i> Générer la réponse
+            </button>
+            <button class="btn btn-secondary" onclick="copierReponse()">
+              <i class="fas fa-copy"></i> Copier
+            </button>
+          </div>
+          
+          <div class="output-container">
+            <div class="output-header">
+              <span class="output-title">Résultat généré :</span>
+            </div>
+            <div id="output-payee">Le message de plainte payée apparaîtra ici.</div>
+          </div>
+        </div>
+        
+        <!-- ONGLET GUERRE -->
+        <div id="guerre" class="tab-content">
+          <div class="tab-header">
+            <h2>Gestion des guerres</h2>
+            <p>Générez des réponses pour les demandes de guerre.</p>
+          </div>
+          
+          <div class="form-group">
+            <label for="guerre-type"><i class="fas fa-flag"></i> Type de réponse :</label>
+            <select id="guerre-type" class="form-control">
+              <option value="acceptee">Guerre acceptée</option>
+              <option value="attente">Guerre en attente</option>
+              <option value="refusee">Guerre refusée</option>
+            </select>
+          </div>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="guerre-chef1"><i class="fas fa-crown"></i> Pseudo chef 1 :</label>
+              <input type="text" id="guerre-chef1" class="form-control" placeholder="@Chef1">
+            </div>
+            
+            <div class="form-group">
+              <label for="guerre-chef2"><i class="fas fa-crown"></i> Pseudo chef 2 :</label>
+              <input type="text" id="guerre-chef2" class="form-control" placeholder="@Chef2">
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="guerre-pseudo"><i class="fas fa-user-shield"></i> Votre pseudo modérateur :</label>
+            <input type="text" id="guerre-pseudo" class="form-control" placeholder="VotrePseudo">
+          </div>
+          
+          <div class="form-group" id="guerre-raison-container" style="display: none;">
+            <label for="guerre-raison"><i class="fas fa-exclamation-circle"></i> Action requise :</label>
+            <input type="text" id="guerre-raison" class="form-control" placeholder="Ajouter les éléments à rajouter">
+          </div>
+          
+          <div class="action-buttons">
+            <button class="btn btn-primary" onclick="genererGuerre()">
+              <i class="fas fa-code"></i> Générer la réponse
+            </button>
+            <button class="btn btn-secondary" onclick="copierReponse()">
+              <i class="fas fa-copy"></i> Copier
+            </button>
+          </div>
+          
+          <div class="output-container">
+            <div class="output-header">
+              <span class="output-title">Résultat généré :</span>
+            </div>
+            <div id="output-guerre">La réponse de guerre apparaîtra ici.</div>
+          </div>
+        </div>
+        
+        <!-- ONGLET CANDIDATURE -->
+        <div id="candidature" class="tab-content">
+          <div class="tab-header">
+            <h2>Avis de candidature</h2>
+            <p>Générez un avis pour les candidatures Guide ou Modérateur.</p>
+          </div>
+          
+          <div class="form-group">
+            <label for="candidature-type"><i class="fas fa-users"></i> Type de candidature :</label>
+            <select id="candidature-type" class="form-control">
+              <option value="guide-pour">Guide - Pour</option>
+              <option value="guide-contre">Guide - Contre</option>
+              <option value="modo-pour">Modérateur - Pour</option>
+              <option value="modo-contre">Modérateur - Contre</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="candidature-nom"><i class="fas fa-user"></i> Pseudo du candidat :</label>
+            <input type="text" id="candidature-nom" class="form-control" placeholder="@Candidat">
+          </div>
+          
+          <div class="form-group">
+            <label for="candidature-pseudo"><i class="fas fa-user-shield"></i> Votre pseudo modérateur :</label>
+            <input type="text" id="candidature-pseudo" class="form-control" placeholder="VotrePseudo">
+          </div>
+          
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="candidature-positif"><i class="fas fa-thumbs-up"></i> Points positifs :</label>
+              <textarea id="candidature-positif" class="form-control" placeholder="Indiquer ici les points positifs observés..." rows="3"></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="candidature-negatif"><i class="fas fa-thumbs-down"></i> Points négatifs :</label>
+              <textarea id="candidature-negatif" class="form-control" placeholder="Indiquer ici les points à améliorer..." rows="3"></textarea>
+            </div>
+          </div>
+          
+          <div class="action-buttons">
+            <button class="btn btn-primary" onclick="genererCandidature()">
+              <i class="fas fa-code"></i> Générer la réponse
+            </button>
+            <button class="btn btn-secondary" onclick="copierReponse()">
+              <i class="fas fa-copy"></i> Copier
+            </button>
+          </div>
+          
+          <div class="output-container">
+            <div class="output-header">
+              <span class="output-title">Résultat généré :</span>
+            </div>
+            <div id="output-candidature">L'avis de candidature apparaîtra ici.</div>
+          </div>
+        </div>
+        
+        <!-- ONGLET COUR D'APPEL -->
+        <div id="appel" class="tab-content">
+          <div class="tab-header">
+            <h2>Cour d'appel</h2>
+            <p>Générez des réponses pour les cours d'appel.</p>
+          </div>
+          
+          <div class="form-group">
+            <label for="appel-type"><i class="fas fa-balance-scale"></i> Type de décision :</label>
+            <select id="appel-type" class="form-control">
+              <option value="acceptee">Appel accepté</option>
+              <option value="refusee">Appel refusé</option>
+              <option value="attente">Appel en attente</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="appel-accuse"><i class="fas fa-user-slash"></i> Pseudo de l'accusé :</label>
+            <input type="text" id="appel-accuse" class="form-control" placeholder="@Accusé">
+          </div>
+          
+          <div class="form-group">
+            <label for="appel-pseudo"><i class="fas fa-user-shield"></i> Votre pseudo admin :</label>
+            <input type="text" id="appel-pseudo" class="form-control" placeholder="VotrePseudo">
+          </div>
+          
+          <div class="action-buttons">
+            <button class="btn btn-primary" onclick="genererAppel()">
+              <i class="fas fa-code"></i> Générer la réponse
+            </button>
+            <button class="btn btn-secondary" onclick="copierReponse()">
+              <i class="fas fa-copy"></i> Copier
+            </button>
+          </div>
+          
+          <div class="output-container">
+            <div class="output-header">
+              <span class="output-title">Résultat généré :</span>
+            </div>
+            <div id="output-appel">La décision d'appel apparaîtra ici.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      <p>NationsGlory Black - Outil de modération © 2025 | Tous droits réservés</p>
+    </div>
+  </footer>
+
+  <div class="notification" id="notification">
+    <i class="fas fa-check-circle"></i>
+    <span>Réponse copiée avec succès !</span>
+  </div>
+
+  <script>
+    // Gestion des onglets
+    function openTab(tabName) {
+      const tabContents = document.getElementsByClassName('tab-content');
+      for (let i = 0; i < tabContents.length; i++) {
+        tabContents[i].classList.remove('active');
+      }
+      
+      const tabButtons = document.getElementsByClassName('tab-btn');
+      for (let i = 0; i < tabButtons.length; i++) {
+        tabButtons[i].classList.remove('active');
+      }
+      
+      document.getElementById(tabName).classList.add('active');
+      
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => {
+        if (btn.onclick.toString().includes(tabName)) {
+          btn.classList.add('active');
+        }
+      });
+    }
+
+    // Gestion de l'affichage des champs conditionnels pour la guerre
+    document.getElementById('guerre-type').addEventListener('change', function() {
+      const raisonContainer = document.getElementById('guerre-raison-container');
+      if (this.value === 'attente') {
+        raisonContainer.style.display = 'block';
+      } else {
+        raisonContainer.style.display = 'none';
+      }
+    });
+
+    // Templates pour les différentes infractions
+    const templates = {
+      // Use Bug
+      "Use Bug": (accuse, victime, pseudo) => `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION BLACK
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #ffffff;">${victime}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 3px solid #2dc26b;">
+      <span style="color: #2dc26b; font-weight: bold;">✓ PLAINTE ACCEPTÉE</span>
+      <span style="color: #e0e0e0;"> - Après analyse complète du dossier</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">ACCUSÉ</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">${accuse}</div>
+      </div>
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">MOTIF</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">Use Bug</div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">SANCTIONS APPLIQUÉES</div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">À LA VICTIME</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">10.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/pay pseudo 10000</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">ONU</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">7.500$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/econ bank deposit onu 7500</div>
+        </div>
+      </div>
+
+      <div style="text-align: center; color: #ff6b6b; font-weight: bold; padding-top: 10px; border-top: 1px solid #333;">
+        ⚖️ Jail de 1 heure
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ DELAIS IMPÉRATIFS
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Paiement sous 7 jours avec preuve datée<br>
+        • Amende doublée après délai<br>
+        • Jail à effectuer immédiatement
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Cette décision est rendue en application du Codex NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+      `,
+
+      // TNT Illégal
+      "TNT Illégal": (accuse, victime, pseudo) => `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION BLACK
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #ffffff;">${victime}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 3px solid #2dc26b;">
+      <span style="color: #2dc26b; font-weight: bold;">✓ PLAINTE ACCEPTÉE</span>
+      <span style="color: #e0e0e0;"> - Après analyse complète du dossier</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">ACCUSÉ</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">${accuse}</div>
+      </div>
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">MOTIF</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">TnT Illégal / Minecraft TnT</div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">SANCTIONS APPLIQUÉES</div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">À LA VICTIME</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">3.000$ / TnT</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/pay pseudo 15000</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">ONU</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">1.500$ / TnT</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/econ bank deposit onu 7500</div>
+        </div>
+      </div>
+
+      <div style="text-align: center; color: #2dc26b; font-weight: bold; padding-top: 10px; border-top: 1px solid #333;">
+        ✅ Rollback de la zone obligatoire
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ DELAIS IMPÉRATIFS
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Paiement sous 7 jours avec preuve datée<br>
+        • Amende doublée après délai
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Cette décision est rendue en application du Codex NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+      `,
+
+      // Kick Kill
+      "Kick Kill": (accuse, victime, pseudo) => `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION BLACK
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #ffffff;">${victime}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 3px solid #2dc26b;">
+      <span style="color: #2dc26b; font-weight: bold;">✓ PLAINTE ACCEPTÉE</span>
+      <span style="color: #e0e0e0;"> - Après analyse complète du dossier</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">ACCUSÉ</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">${accuse}</div>
+      </div>
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">MOTIF</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">Kick Kill</div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">SANCTIONS APPLIQUÉES</div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">À LA VICTIME</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">5.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/pay pseudo 5000</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">ONU</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">2.500$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/econ bank deposit onu 2500</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ DELAIS IMPÉRATIFS
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Paiement sous 7 jours avec preuve datée<br>
+        • Amende doublée après délai
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Cette décision est rendue en application du Codex NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+      `,
+
+      // Back Safezone
+      "Back Safezone": (accuse, victime, pseudo) => `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION BLACK
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #ffffff;">${victime}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 3px solid #2dc26b;">
+      <span style="color: #2dc26b; font-weight: bold;">✓ PLAINTE ACCEPTÉE</span>
+      <span style="color: #e0e0e0;"> - Après analyse complète du dossier</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">ACCUSÉ</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">${accuse}</div>
+      </div>
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">MOTIF</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">Back Safezone</div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">SANCTIONS APPLIQUÉES</div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">À LA VICTIME</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">5.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/pay pseudo 5000</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">ONU</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">2.500$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/econ bank deposit onu 2500</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ DELAIS IMPÉRATIFS
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Paiement sous 7 jours avec preuve datée<br>
+        • Amende doublée après délai
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Cette décision est rendue en application du Codex NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+      `,
+
+      // Trahison à explosif
+      "Trahison à explosif": (accuse, victime, pseudo) => `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION BLACK
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #ffffff;">${victime}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 3px solid #2dc26b;">
+      <span style="color: #2dc26b; font-weight: bold;">✓ PLAINTE ACCEPTÉE</span>
+      <span style="color: #e0e0e0;"> - Après analyse complète du dossier</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">ACCUSÉ</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">${accuse}</div>
+      </div>
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">MOTIF</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">Trahison à explosif</div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">SANCTIONS APPLIQUÉES</div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">À LA VICTIME</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">10.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/pay pseudo 10000</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">ONU</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">5.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/econ bank deposit onu 5000</div>
+        </div>
+      </div>
+
+      <div style="text-align: center; color: #2dc26b; font-weight: bold; padding-top: 10px; border-top: 1px solid #333;">
+        ✅ Rollback de la zone
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ DELAIS IMPÉRATIFS
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Paiement sous 7 jours avec preuve datée<br>
+        • Amende doublée après délai
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Cette décision est rendue en application du Codex NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+      `,
+
+      // Focus nouveau joueur
+      "Focus nouveau joueur": (accuse, victime, pseudo) => `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION BLACK
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #ffffff;">${victime}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 3px solid #2dc26b;">
+      <span style="color: #2dc26b; font-weight: bold;">✓ PLAINTE ACCEPTÉE</span>
+      <span style="color: #e0e0e0;"> - Après analyse complète du dossier</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">ACCUSÉ</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">${accuse}</div>
+      </div>
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">MOTIF</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">Focus nouveau joueur</div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">SANCTIONS APPLIQUÉES</div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">À LA VICTIME</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">50.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/pay pseudo 50000</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">ONU</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">25.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/econ bank deposit onu 25000</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ DELAIS IMPÉRATIFS
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Paiement sous 7 jours avec preuve datée<br>
+        • Amende doublée après délai
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Cette décision est rendue en application du Codex NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+      `,
+
+      // Assaut illégal
+      "Assaut illégal": (accuse, victime, pseudo) => `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION BLACK
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #ffffff;">${victime}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 3px solid #2dc26b;">
+      <span style="color: #2dc26b; font-weight: bold;">✓ PLAINTE ACCEPTÉE</span>
+      <span style="color: #e0e0e0;"> - Après analyse complète du dossier</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">ACCUSÉ</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">${accuse}</div>
+      </div>
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">MOTIF</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">Assaut illégal</div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">SANCTIONS APPLIQUÉES</div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">À LA VICTIME</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">10.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/pay pseudo 10000</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">ONU</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">5.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/econ bank deposit onu 5000</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ DELAIS IMPÉRATIFS
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Paiement sous 7 jours avec preuve datée<br>
+        • Amende doublée après délai
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Cette décision est rendue en application du Codex NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+      `,
+
+      // TP Combat
+      "TP Combat": (accuse, victime, pseudo) => `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION BLACK
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #ffffff;">${victime}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 3px solid #2dc26b;">
+      <span style="color: #2dc26b; font-weight: bold;">✓ PLAINTE ACCEPTÉE</span>
+      <span style="color: #e0e0e0;"> - Après analyse complète du dossier</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">ACCUSÉ</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">${accuse}</div>
+      </div>
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">MOTIF</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">Tp Combat</div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">SANCTIONS APPLIQUÉES</div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">À LA VICTIME</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">10.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/pay pseudo 10000</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">ONU</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">5.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/econ bank deposit onu 5000</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ DELAIS IMPÉRATIFS
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Paiement sous 7 jours avec preuve datée<br>
+        • Amende doublée après délai
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Cette décision est rendue en application du Codex NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+      `,
+
+      // Back No-Stuff
+      "Back No-Stuff": (accuse, victime, pseudo) => `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION BLACK
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #ffffff;">${victime}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 3px solid #2dc26b;">
+      <span style="color: #2dc26b; font-weight: bold;">✓ PLAINTE ACCEPTÉE</span>
+      <span style="color: #e0e0e0;"> - Après analyse complète du dossier</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">ACCUSÉ</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">${accuse}</div>
+      </div>
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">MOTIF</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">Back No-Stuff</div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">SANCTIONS APPLIQUÉES</div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">À LA VICTIME</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">10.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/pay pseudo 10000</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">ONU</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">5.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/econ bank deposit onu 5000</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ DELAIS IMPÉRATIFS
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Paiement sous 7 jours avec preuve datée<br>
+        • Amende doublée après délai
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Cette décision est rendue en application du Codex NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+      `,
+
+      // Piège illégal
+      "Piège illégal": (accuse, victime, pseudo) => `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION BLACK
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #ffffff;">${victime}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 3px solid #2dc26b;">
+      <span style="color: #2dc26b; font-weight: bold;">✓ PLAINTE ACCEPTÉE</span>
+      <span style="color: #e0e0e0;"> - Après analyse complète du dossier</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">ACCUSÉ</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">${accuse}</div>
+      </div>
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">MOTIF</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">Piège illégal</div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">SANCTIONS APPLIQUÉES</div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">À LA VICTIME</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">10.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/pay pseudo 10000</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">ONU</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">5.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/econ bank deposit onu 5000</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ DELAIS IMPÉRATIFS
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Paiement sous 7 jours avec preuve datée<br>
+        • Amende doublée après délai
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Cette décision est rendue en application du Codex NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+      `,
+
+      // Claim Combat
+      "Claim Combat": (accuse, victime, pseudo) => `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION BLACK
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #ffffff;">${victime}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 3px solid #2dc26b;">
+      <span style="color: #2dc26b; font-weight: bold;">✓ PLAINTE ACCEPTÉE</span>
+      <span style="color: #e0e0e0;"> - Après analyse complète du dossier</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">ACCUSÉ</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">${accuse}</div>
+      </div>
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">MOTIF</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">Claim Combat</div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">SANCTIONS APPLIQUÉES</div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">À LA VICTIME</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">10.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/pay pseudo 10000</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">ONU</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">5.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/econ bank deposit onu 5000</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ DELAIS IMPÉRATIFS
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Paiement sous 7 jours avec preuve datée<br>
+        • Amende doublée après délai
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Cette décision est rendue en application du Codex NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+      `,
+
+      // Entrave Assaut
+      "Entrave Assaut": (accuse, victime, pseudo) => `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION BLACK
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #ffffff;">${victime}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 3px solid #2dc26b;">
+      <span style="color: #2dc26b; font-weight: bold;">✓ PLAINTE ACCEPTÉE</span>
+      <span style="color: #e0e0e0;"> - Après analyse complète du dossier</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">ACCUSÉ</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">${accuse}</div>
+      </div>
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">MOTIF</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">Entrave Assaut</div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">SANCTIONS APPLIQUÉES</div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">À LA VICTIME</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">10.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/pay pseudo 10000</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">ONU</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">5.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/econ bank deposit onu 5000</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ DELAIS IMPÉRATIFS
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Paiement sous 7 jours avec preuve datée<br>
+        • Amende doublée après délai
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Cette décision est rendue en application du Codex NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+      `,
+
+      // Non respect règles warzone
+      "Non respect règles warzone": (accuse, victime, pseudo) => `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION BLACK
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #ffffff;">${victime}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 3px solid #2dc26b;">
+      <span style="color: #2dc26b; font-weight: bold;">✓ PLAINTE ACCEPTÉE</span>
+      <span style="color: #e0e0e0;"> - Après analyse complète du dossier</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">ACCUSÉ</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">${accuse}</div>
+      </div>
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">MOTIF</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">Non respect règles warzone</div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">SANCTIONS APPLIQUÉES</div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">À LA VICTIME</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">10.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/pay pseudo 10000</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">ONU</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">5.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/econ bank deposit onu 5000</div>
+        </div>
+      </div>
+
+      <div style="text-align: center; color: #ff6b6b; font-weight: bold; padding-top: 10px; border-top: 1px solid #333;">
+        ⚖️ Jail de 2 heures
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ DELAIS IMPÉRATIFS
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Paiement sous 7 jours avec preuve datée<br>
+        • Amende doublée après délai<br>
+        • Jail à effectuer immédiatement
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Cette décision est rendue en application du Codex NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+      `,
+
+      // Vagabondage
+      "Vagabondage": (accuse, victime, pseudo) => `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION BLACK
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #ffffff;">${victime}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 3px solid #2dc26b;">
+      <span style="color: #2dc26b; font-weight: bold;">✓ PLAINTE ACCEPTÉE</span>
+      <span style="color: #e0e0e0;"> - Après analyse complète du dossier</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">ACCUSÉ</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">${accuse}</div>
+      </div>
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">MOTIF</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">Vagabondage</div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">SANCTIONS APPLIQUÉES</div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">À LA VICTIME</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">10.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/pay pseudo 10000</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">ONU</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">7.500$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/econ bank deposit onu 7500</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ DELAIS IMPÉRATIFS
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Paiement sous 7 jours avec preuve datée<br>
+        • Amende doublée après délai
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Cette décision est rendue en application du Codex NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+      `,
+
+      // Missile illégal
+      "Missile illégal": (accuse, victime, pseudo) => `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION BLACK
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #ffffff;">${victime}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 3px solid #2dc26b;">
+      <span style="color: #2dc26b; font-weight: bold;">✓ PLAINTE ACCEPTÉE</span>
+      <span style="color: #e0e0e0;"> - Après analyse complète du dossier</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">ACCUSÉ</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">${accuse}</div>
+      </div>
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">MOTIF</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">Missile illégal</div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">SANCTIONS APPLIQUÉES</div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">À LA VICTIME</div>
+          <div style="color: #2dc26b; font-size: 18px; font-weight: bold;">(prix plans × nombre) × tier</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 11px;">/pay pseudo [montant]</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">ONU</div>
+          <div style="color: #2dc26b; font-size: 18px; font-weight: bold;">(valeur / 2)</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 11px;">/econ bank deposit onu [montant]</div>
+        </div>
+      </div>
+
+      <div style="text-align: center; color: #2dc26b; font-weight: bold; padding-top: 10px; border-top: 1px solid #333;">
+        ✅ Rollback de la zone
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #f39c12; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        🧮 FORMULE DE CALCUL
+      </div>
+      <div style="color: #bbb; font-size: 12px; text-align: center;">
+        (Prix du plan × Nombre de plans pour le craft) × Tier du missile<br>
+        ONU = Cette valeur ÷ 2
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ DELAIS IMPÉRATIFS
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Paiement sous 7 jours avec preuve datée<br>
+        • Amende doublée après délai
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Cette décision est rendue en application du Codex NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+      `,
+
+      // Boost Fs/MMR/R&D
+      "Boost Fs/MMR/R&D": (accuse, victime, pseudo) => `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION BLACK
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #ffffff;">${victime}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 3px solid #2dc26b;">
+      <span style="color: #2dc26b; font-weight: bold;">✓ PLAINTE ACCEPTÉE</span>
+      <span style="color: #e0e0e0;"> - Après analyse complète du dossier</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">ACCUSÉ</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">${accuse}</div>
+      </div>
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">MOTIF</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">Boost Fs / MMR / R&D</div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">SANCTIONS APPLIQUÉES</div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">À LA VICTIME</div>
+          <div style="color: #2dc26b; font-size: 18px; font-weight: bold;">30.000$ à 50.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 11px;">/pay pseudo [montant]</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">ONU</div>
+          <div style="color: #2dc26b; font-size: 18px; font-weight: bold;">15.000$ à 25.000$</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 11px;">/econ bank deposit onu [montant]</div>
+        </div>
+      </div>
+
+      <div style="text-align: center; color: #ff6b6b; font-weight: bold; padding-top: 10px; border-top: 1px solid #333;">
+        🗑️ Clear du boost
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #f39c12; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        💰 ÉCHELLE DE SANCTION
+      </div>
+      <div style="color: #bbb; font-size: 12px; text-align: center;">
+        Montant variable selon la gravité du boost<br>
+        Min: 30.000$ / 15.000$ ― Max: 50.000$ / 25.000$
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ DELAIS IMPÉRATIFS
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Paiement sous 7 jours avec preuve datée<br>
+        • Amende doublée après délai<br>
+        • Clear immédiat du boost illégal
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Cette décision est rendue en application du Codex NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+      `,
+
+      // Abus de portail
+      "Abus de portail": (accuse, victime, pseudo) => `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION BLACK
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #ffffff;">${victime}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 3px solid #2dc26b;">
+      <span style="color: #2dc26b; font-weight: bold;">✓ PLAINTE ACCEPTÉE</span>
+      <span style="color: #e0e0e0;"> - Après analyse complète du dossier</span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">ACCUSÉ</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">${accuse}</div>
+      </div>
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">MOTIF</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">Abus de portail du nether</div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">SANCTIONS APPLIQUÉES</div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">À LA VICTIME</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">5.000$ / portail</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/pay pseudo 15000</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">ONU</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">2.500$ / portail</div>
+          <div style="color: #bbb; font-family: monospace; font-size: 12px;">/econ bank deposit onu 7500</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ DELAIS IMPÉRATIFS
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Paiement sous 7 jours avec preuve datée<br>
+        • Amende doublée après délai
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Cette décision est rendue en application du Codex NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+      `
+    };
+
+    // Fonction pour générer une plainte
+    function genererPlainte() {
+      const accuse = document.getElementById('accuse').value || '@JoueurAccusé';
+      const victime = document.getElementById('victime').value || '@JoueurVictime';
+      const pseudo = document.getElementById('pseudo').value || 'Modérateur';
+      const raison = document.getElementById('raison').value;
+      
+      let message = '';
+      
+      if (!raison) {
+        message = 'Veuillez sélectionner un type d\'infraction.';
+      } else if (templates[raison]) {
+        message = templates[raison](accuse, victime, pseudo);
+      } else {
+        message = 'Template non disponible pour cette infraction.';
+      }
+      
+      document.getElementById('output').innerHTML = message;
+    }
+
+    // Fonction pour générer une mise en attente
+    function genererAttente() {
+      const victime = document.getElementById('attente-victime').value || '@JoueurVictime';
+      const pseudo = document.getElementById('attente-pseudo').value || 'Modérateur';
+      const raison = document.getElementById('attente-raison').value || 'Fournir des preuves supplémentaires';
+      
+      const message = `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #f39c12; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION BLACK
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">Bonjour, Bonsoir</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 2px solid #f39c12; text-align: center;">
+      <div style="color: #f39c12; font-size: 24px; font-weight: bold; margin-bottom: 15px;">
+        ⏳ PLAINTE EN ATTENTE
+      </div>
+      <div style="color: #e0e0e0; font-size: 16px;">
+        Votre dossier nécessite un complément d'information
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #f39c12; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
+        INFORMATIONS REQUISES
+      </div>
+      
+      <div style="background: #252525; padding: 15px; border-radius: 6px; border: 1px solid #444; text-align: center;">
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold; margin-bottom: 10px;">
+          ${victime}
+        </div>
+        <div style="color: #f39c12; font-size: 16px;">
+          Vous avez 48h pour ${raison}
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #f39c12; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ DÉLAI IMPÉRATIF
+      </div>
+      <div style="color: #bbb; font-size: 14px; text-align: center;">
+        Passé ce délai, votre plainte sera automatiquement classée sans suite
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Notification officielle • Codex NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+      `;
+      
+      document.getElementById('output-attente').innerHTML = message;
+    }
+
+    // Fonction pour générer un refus
+    function genererRefus() {
+      const victime = document.getElementById('refus-victime').value || '@JoueurVictime';
+      const pseudo = document.getElementById('refus-pseudo').value || 'Modérateur';
+      const raison = document.getElementById('refus-raison').value || 'Preuves insuffisantes';
+      
+      const message = `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #e74c3c; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION BLACK
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #ffffff;">${victime}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 6px; margin-bottom: 25px; border: 2px solid #e74c3c; text-align: center;">
+      <div style="color: #e74c3c; font-size: 24px; font-weight: bold; margin-bottom: 10px;">
+        ✗ PLAINTE REFUSÉE
+      </div>
+      <div style="color: #e0e0e0; font-size: 16px;">
+        Décision ferme et définitive
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #e74c3c; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
+        MOTIF DU REFUS
+      </div>
+      
+      <div style="background: #252525; padding: 15px; border-radius: 6px; border: 1px solid #444;">
+        <div style="color: #bbb; font-size: 14px; text-align: center;">
+          ${raison}
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Décision rendue en application du Codex NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+      `;
+      
+      document.getElementById('output-refus').innerHTML = message;
+    }
+
+    // Fonction pour générer une plainte payée
+    function genererPayee() {
+      const accuse = document.getElementById('payee-accuse').value || '@JoueurAccusé';
+      const victime = document.getElementById('payee-victime').value || '@JoueurVictime';
+      const pseudo = document.getElementById('payee-pseudo').value || 'Modérateur';
+      const raison = document.getElementById('payee-raison').value || 'Use Bug';
+      
+      const message = `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION BLACK
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #ffffff;">${victime}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 25px; border-radius: 8px; margin-bottom: 25px; border: 2px solid #2dc26b; text-align: center;">
+      <div style="color: #2dc26b; font-size: 24px; font-weight: bold; margin-bottom: 15px;">
+        ✓ PLAINTE PAYÉE ET TRAITÉE
+      </div>
+      <div style="color: #e0e0e0; font-size: 16px;">
+        Dossier clôturé avec succès
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">ACCUSÉ</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">${accuse}</div>
+      </div>
+      <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
+        <div style="color: #888; font-size: 12px; margin-bottom: 5px;">MOTIF</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">${raison}</div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #2dc26b; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
+        MONTANTS PERÇUS
+      </div>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">PAR LA VICTIME</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">15.000$</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="color: #888; font-size: 12px;">PAR L'ONU</div>
+          <div style="color: #2dc26b; font-size: 20px; font-weight: bold;">7.500$</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #2dc26b; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ✅ Remboursement effectué
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Dossier clôturé avec succès • Codex NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+      `;
+      
+      document.getElementById('output-payee').innerHTML = message;
+    }
+
+    // Fonction pour générer une réponse de guerre
+    function genererGuerre() {
+      const type = document.getElementById('guerre-type').value;
+      const chef1 = document.getElementById('guerre-chef1').value || '@Chef1';
+      const chef2 = document.getElementById('guerre-chef2').value || '@Chef2';
+      const pseudo = document.getElementById('guerre-pseudo').value || 'Modérateur';
+      const raison = document.getElementById('guerre-raison').value || 'Ajouter les éléments à rajouter';
+      
+      let message = '';
+      
+      if (type === 'acceptee') {
+        message = `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION GUERRE
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #2dc26b;">${chef1}</span>
+      <span style="font-size: 18px; color: #ffffff;"> et </span>
+      <span style="font-size: 18px; color: #2dc26b;">${chef2}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 25px; border-radius: 8px; margin-bottom: 25px; border: 2px solid #2dc26b; text-align: center;">
+      <div style="color: #2dc26b; font-size: 24px; font-weight: bold; margin-bottom: 15px;">
+        ✅ DEMANDE DE GUERRE ACCEPTÉE
+      </div>
+      <div style="color: #e0e0e0; font-size: 16px;">
+        Au vu des informations fournies, je vous informe que la demande de guerre est acceptée.
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Décision prise en application du Codex de Guerre NationsGlory<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+        `;
+      } else if (type === 'attente') {
+        message = `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #f39c12; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION GUERRE
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #f39c12;">${chef1}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 25px; border-radius: 8px; margin-bottom: 25px; border: 2px solid #f39c12; text-align: center;">
+      <div style="color: #f39c12; font-size: 24px; font-weight: bold; margin-bottom: 15px;">
+        ⏳ DEMANDE DE GUERRE EN ATTENTE
+      </div>
+      <div style="color: #e0e0e0; font-size: 16px;">
+        Au vu des informations fournies, je vous informe que la demande de guerre est mise En Attente.
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #f39c12; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
+        ACTION REQUISE
+      </div>
+      
+      <div style="background: #252525; padding: 15px; border-radius: 6px; border: 1px solid #444; text-align: center;">
+        <div style="color: #f39c12; font-size: 16px; font-weight: bold;">
+          ${chef1} vous avez 48h pour ${raison}
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #f39c12; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ DÉLAI IMPÉRATIF
+      </div>
+      <div style="color: #bbb; font-size: 14px; text-align: center;">
+        Passé ce délai, votre demande sera automatiquement rejetée
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Notification officielle • Codex de Guerre NationsGlory<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+        `;
+      } else if (type === 'refusee') {
+        message = `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #e74c3c; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - SECTION GUERRE
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">À l'attention de </span>
+      <span style="font-size: 18px; color: #e74c3c;">${chef1}</span>
+      <span style="font-size: 18px; color: #ffffff;"> et </span>
+      <span style="font-size: 18px; color: #e74c3c;">${chef2}</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 25px; border-radius: 8px; margin-bottom: 25px; border: 2px solid #e74c3c; text-align: center;">
+      <div style="color: #e74c3c; font-size: 24px; font-weight: bold; margin-bottom: 15px;">
+        ❌ DEMANDE DE GUERRE REFUSÉE
+      </div>
+      <div style="color: #e0e0e0; font-size: 16px;">
+        Au vu des informations fournies, je vous informe que la demande de guerre est refusée.
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Décision prise en application du Codex de Guerre NationsGlory<br>
+      <span style="color: #ffffff;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+        `;
+      }
+      
+      document.getElementById('output-guerre').innerHTML = message;
+    }
+
+    // Fonction pour générer un avis de candidature
+    function genererCandidature() {
+      const type = document.getElementById('candidature-type').value;
+      const nom = document.getElementById('candidature-nom').value || '@Candidat';
+      const pseudo = document.getElementById('candidature-pseudo').value || 'Modérateur';
+      const positif = document.getElementById('candidature-positif').value || '[Indiquer ici les points positifs observés...]';
+      const negatif = document.getElementById('candidature-negatif').value || '[Indiquer ici les points à améliorer...]';
+      
+      let message = '';
+      
+      if (type === 'guide-pour') {
+        message = `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #e91e63; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      AVIS DE CANDIDATURE - SECTION GUIDE
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">Bonjour, Bonsoir </span>
+      <span style="font-size: 18px; color: #e91e63;">${nom}</span>
+      <span style="font-size: 18px; color: #ffffff;"> !</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 2px solid #e91e63; text-align: center;">
+      <div style="color: #e91e63; font-size: 20px; font-weight: bold; margin-bottom: 15px;">
+        📝 AVIS SUR TA CANDIDATURE GUIDE
+      </div>
+      <div style="color: #e0e0e0; font-size: 16px;">
+        Je viens ici te donner mon avis sur ta Candidature pour rentrer en tant que Guide
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #2ecc71; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
+        ✔️ POINTS POSITIFS
+      </div>
+      
+      <div style="background: #252525; padding: 15px; border-radius: 6px; border: 1px solid #444; text-align: center;">
+        <div style="color: #2ecc71; font-size: 14px;">
+          ${positif}
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #e74c3c; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
+        ❌ POINTS NÉGATIFS
+      </div>
+      
+      <div style="background: #252525; padding: 15px; border-radius: 6px; border: 1px solid #444; text-align: center;">
+        <div style="color: #e74c3c; font-size: 14px;">
+          ${negatif}
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 25px; border-radius: 8px; margin-bottom: 20px; border: 2px solid #2ecc71; text-align: center;">
+      <div style="color: #2ecc71; font-size: 22px; font-weight: bold; margin-bottom: 10px;">
+        ✅ CONCLUSION FINALE
+      </div>
+      <div style="color: #e0e0e0; font-size: 16px;">
+        Après ces éléments j'en conclue que je suis 
+        <span style="color: #2ecc71; font-weight: bold;">POUR ✔️</span> 
+        ton entrée dans Guide
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Avis personnel • Processus de recrutement NationsGlory Guide<br>
+      <span style="color: #2dc26b;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+        `;
+      } else if (type === 'guide-contre') {
+        message = `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #e91e63; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      AVIS DE CANDIDATURE - SECTION GUIDE
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">Bonjour, Bonsoir </span>
+      <span style="font-size: 18px; color: #e91e63;">${nom}</span>
+      <span style="font-size: 18px; color: #ffffff;"> !</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 2px solid #e91e63; text-align: center;">
+      <div style="color: #e91e63; font-size: 20px; font-weight: bold; margin-bottom: 15px;">
+        📝 AVIS SUR TA CANDIDATURE GUIDE
+      </div>
+      <div style="color: #e0e0e0; font-size: 16px;">
+        Je viens ici te donner mon avis sur ta Candidature pour rentrer en tant que Guide
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #2ecc71; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
+        ✔️ POINTS POSITIFS
+      </div>
+      
+      <div style="background: #252525; padding: 15px; border-radius: 6px; border: 1px solid #444; text-align: center;">
+        <div style="color: #2ecc71; font-size: 14px;">
+          ${positif}
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #e74c3c; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
+        ❌ POINTS NÉGATIFS
+      </div>
+      
+      <div style="background: #252525; padding: 15px; border-radius: 6px; border: 1px solid #444; text-align: center;">
+        <div style="color: #e74c3c; font-size: 14px;">
+          ${negatif}
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 25px; border-radius: 8px; margin-bottom: 20px; border: 2px solid #e74c3c; text-align: center;">
+      <div style="color: #e74c3c; font-size: 22px; font-weight: bold; margin-bottom: 10px;">
+        ❌ CONCLUSION FINALE
+      </div>
+      <div style="color: #e0e0e0; font-size: 16px;">
+        Après ces éléments j'en conclue que je suis 
+        <span style="color: #e74c3c; font-weight: bold;">CONTRE ❌</span> 
+        ton entrée dans Guide
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Avis personnel • Processus de recrutement NationsGlory Guide<br>
+      <span style="color: #2dc26b;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+        `;
+      } else if (type === 'modo-pour') {
+        message = `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      AVIS DE CANDIDATURE - MODÉRATION TEST
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">Bonjour, Bonsoir </span>
+      <span style="font-size: 18px; color: #2dc26b;">${nom}</span>
+      <span style="font-size: 18px; color: #ffffff;"> !</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 2px solid #2dc26b; text-align: center;">
+      <div style="color: #2dc26b; font-size: 20px; font-weight: bold; margin-bottom: 15px;">
+        📝 AVIS SUR TA CANDIDATURE MODÉRATEUR TEST
+      </div>
+      <div style="color: #e0e0e0; font-size: 16px;">
+        Je viens ici te donner mon avis sur ta Candidature pour rentrer en tant que Modérateur Test
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #2ecc71; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
+        ✔️ POINTS POSITIFS
+      </div>
+      
+      <div style="background: #252525; padding: 15px; border-radius: 6px; border: 1px solid #444; text-align: center;">
+        <div style="color: #2ecc71; font-size: 14px;">
+          ${positif}
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #e74c3c; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
+        ❌ POINTS NÉGATIFS
+      </div>
+      
+      <div style="background: #252525; padding: 15px; border-radius: 6px; border: 1px solid #444; text-align: center;">
+        <div style="color: #e74c3c; font-size: 14px;">
+          ${negatif}
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 25px; border-radius: 8px; margin-bottom: 20px; border: 2px solid #2ecc71; text-align: center;">
+      <div style="color: #2ecc71; font-size: 22px; font-weight: bold; margin-bottom: 10px;">
+        ✅ CONCLUSION FINALE
+      </div>
+      <div style="color: #e0e0e0; font-size: 16px;">
+        Après ces éléments j'en conclue que je suis 
+        <span style="color: #2ecc71; font-weight: bold;">POUR ✔️</span> 
+        ton entrée dans la Modération en tant que Modérateur Test.
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Avis personnel • Processus de recrutement Modération Test<br>
+      <span style="color: #2dc26b;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+        `;
+      } else if (type === 'modo-contre') {
+        message = `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      AVIS DE CANDIDATURE - MODÉRATION TEST
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">Bonjour, Bonsoir </span>
+      <span style="font-size: 18px; color: #2dc26b;">${nom}</span>
+      <span style="font-size: 18px; color: #ffffff;"> !</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 25px; border: 2px solid #2dc26b; text-align: center;">
+      <div style="color: #2dc26b; font-size: 20px; font-weight: bold; margin-bottom: 15px;">
+        📝 AVIS SUR TA CANDIDATURE MODÉRATEUR TEST
+      </div>
+      <div style="color: #e0e0e0; font-size: 16px;">
+        Je viens ici te donner mon avis sur ta Candidature pour rentrer en tant que Modérateur Test
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #2ecc71; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
+        ✔️ POINTS POSITIFS
+      </div>
+      
+      <div style="background: #252525; padding: 15px; border-radius: 6px; border: 1px solid #444; text-align: center;">
+        <div style="color: #2ecc71; font-size: 14px;">
+          ${positif}
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #e74c3c; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
+        ❌ POINTS NÉGATIFS
+      </div>
+      
+      <div style="background: #252525; padding: 15px; border-radius: 6px; border: 1px solid #444; text-align: center;">
+        <div style="color: #e74c3c; font-size: 14px;">
+          ${negatif}
+        </div>
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 25px; border-radius: 8px; margin-bottom: 20px; border: 2px solid #e74c3c; text-align: center;">
+      <div style="color: #e74c3c; font-size: 22px; font-weight: bold; margin-bottom: 10px;">
+        ❌ CONCLUSION FINALE
+      </div>
+      <div style="color: #e0e0e0; font-size: 16px;">
+        Après ces éléments j'en conclue que je suis 
+        <span style="color: #e74c3c; font-weight: bold;">CONTRE ❌</span> 
+        ton entrée dans la Modération en tant que Modérateur Test.
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Avis personnel • Processus de recrutement Modération Test<br>
+      <span style="color: #2dc26b;">${pseudo} Modérateur</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+        `;
+      }
+      
+      document.getElementById('output-candidature').innerHTML = message;
+    }
+
+    // Fonction pour générer une décision d'appel
+    function genererAppel() {
+      const type = document.getElementById('appel-type').value;
+      const accuse = document.getElementById('appel-accuse').value || '@Accusé';
+      const pseudo = document.getElementById('appel-pseudo').value || 'Admin';
+      
+      let message = '';
+      
+      if (type === 'acceptee') {
+        message = `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2dc26b; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - COUR D'APPEL
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">Bonjour, Bonsoir,</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 25px; border-radius: 8px; margin-bottom: 25px; border: 2px solid #2dc26b; text-align: center;">
+      <div style="color: #2dc26b; font-size: 24px; font-weight: bold; margin-bottom: 15px;">
+        ✅ COUR D'APPEL ACCEPTÉE
+      </div>
+      <div style="color: #e0e0e0; font-size: 16px;">
+        Suite à l'acceptation de l'appel par la cour, l'ensemble des poursuites à l'encontre de <span style="color: #2dc26b;">${accuse}</span> sont annulées.
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
+        DÉCISION DE LA COUR
+      </div>
+      
+      <div style="text-align: center; color: #2dc26b; font-size: 16px; font-weight: bold;">
+        Toutes les sanctions précédemment appliquées sont levées
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        📋 CONSÉQUENCES
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Amendes annulées et remboursées si déjà payées<br>
+        • Sanctions carcérales levées immédiatement<br>
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Décision rendue par la Haute Cour de Justice NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Admin</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+        `;
+      } else if (type === 'refusee') {
+        message = `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #e74c3c; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - COUR D'APPEL
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">Bonjour, Bonsoir,</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 25px; border-radius: 8px; margin-bottom: 25px; border: 2px solid #e74c3c; text-align: center;">
+      <div style="color: #e74c3c; font-size: 24px; font-weight: bold; margin-bottom: 15px;">
+        ❌ COUR D'APPEL REFUSÉE
+      </div>
+      <div style="color: #e0e0e0; font-size: 16px;">
+        Suite au refus de l'appel par la cour, l'ensemble des poursuites à l'encontre de <span style="color: #e74c3c;">${accuse}</span> reprennent.
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
+        DÉCISION DE LA COUR
+      </div>
+      
+      <div style="text-align: center; color: #e74c3c; font-size: 16px; font-weight: bold;">
+        Toutes les sanctions précédemment appliquées sont maintenues
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ CONSÉQUENCES
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Amendes à payer selon le jugement initial<br>
+        • Sanctions carcérales à effectuer intégralement<br>
+        • Délais initiaux restent applicables
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Décision rendue par la Haute Cour de Justice NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Admin</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+        `;
+      } else if (type === 'attente') {
+        message = `
+<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #f39c12; padding: 20px 30px;">
+  <div style="text-align: center; margin-bottom: 20px;">
+    <img src="https://static.nationsglory.fr/33y3G_2_6.png" alt="NationsGlory Black" style="height: 60px; margin-bottom: 10px;">
+    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-size: 16px; color: #e0e0e0; font-weight: bold; letter-spacing: 1px;">
+      DÉCISION OFFICIELLE - COUR D'APPEL
+    </div>
+  </div>
+
+  <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #e0e0e0; line-height: 1.6;">
+    <div style="text-align: center; margin-bottom: 25px;">
+      <span style="font-size: 18px; color: #ffffff;">Bonjour, Bonsoir,</span>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 25px; border-radius: 8px; margin-bottom: 25px; border: 2px solid #f39c12; text-align: center;">
+      <div style="color: #f39c12; font-size: 24px; font-weight: bold; margin-bottom: 15px;">
+        ⏳ COUR D'APPEL EN ATTENTE
+      </div>
+      <div style="color: #e0e0e0; font-size: 16px;">
+        Votre demande d'appel est en cours d'examen par la cour de justice.
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 15px; text-align: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
+        STATUT DE L'APPEL
+      </div>
+      
+      <div style="text-align: center; color: #f39c12; font-size: 16px; font-weight: bold;">
+        Délai d'attente estimé : 48 à 72 heures
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        📋 PROCÉDURE EN COURS
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Analyse complète du dossier en cours<br>
+        • Vérification des preuves et arguments<br>
+        • Consultation des juges de la cour
+      </div>
+    </div>
+
+    <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #333;">
+      <div style="color: #ffffff; font-weight: bold; margin-bottom: 10px; text-align: center;">
+        ⚠️ CONSIGNES PÉNITENTIAIRES
+      </div>
+      <div style="color: #bbb; font-size: 13px; text-align: center;">
+        • Les sanctions initiales restent applicables pendant l'examen<br>
+        • Les délais de paiement sont suspendus pendant la procédure<br>
+        • Aucune nouvelle sanction ne sera appliquée durant cet examen
+      </div>
+    </div>
+
+    <div style="text-align: center; color: #888; font-size: 12px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+      Dossier en cours de traitement par la Haute Cour de Justice NationsGlory Black<br>
+      <span style="color: #ffffff;">${pseudo} Admin</span> • © 2025 NationsGlory
+    </div>
+  </div>
+</div>
+        `;
+      }
+      
+      document.getElementById('output-appel').innerHTML = message;
+    }
+
+    // Fonction pour copier le texte
+    function copierReponse() {
+      let outputText = '';
+      const activeTab = document.querySelector('.tab-content.active');
+      
+      if (activeTab.id === 'plainte') {
+        outputText = document.getElementById('output').innerHTML;
+      } else if (activeTab.id === 'attente') {
+        outputText = document.getElementById('output-attente').innerHTML;
+      } else if (activeTab.id === 'refus') {
+        outputText = document.getElementById('output-refus').innerHTML;
+      } else if (activeTab.id === 'payee') {
+        outputText = document.getElementById('output-payee').innerHTML;
+      } else if (activeTab.id === 'guerre') {
+        outputText = document.getElementById('output-guerre').innerHTML;
+      } else if (activeTab.id === 'candidature') {
+        outputText = document.getElementById('output-candidature').innerHTML;
+      } else if (activeTab.id === 'appel') {
+        outputText = document.getElementById('output-appel').innerHTML;
+      }
+      
+      // Créer un élément temporaire pour copier le HTML
+      const tempElement = document.createElement('div');
+      tempElement.innerHTML = outputText;
+      const htmlContent = tempElement.innerHTML;
+      
+      navigator.clipboard.writeText(htmlContent)
+        .then(() => {
+          showNotification();
+        })
+        .catch(err => {
+          console.error('Erreur lors de la copie : ', err);
+          // Fallback pour les navigateurs qui ne supportent pas clipboard API
+          const textArea = document.createElement('textarea');
+          textArea.value = htmlContent;
+          document.body.appendChild(textArea);
+          textArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(textArea);
+          showNotification();
+        });
+    }
+
+    // Fonction pour afficher la notification
+    function showNotification() {
+      const notification = document.getElementById('notification');
+      notification.classList.add('show');
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
