@@ -515,7 +515,7 @@
               <option value="Piège illégal">Piège illégal</option>
               <option value="Claim Combat">Claim Combat</option>
               <option value="Entrave Assaut">Entrave Assaut</option>
-              <option value="Non-respect des staff">Non-respect des Règles Warzone</option>
+              <option value="Non-respect des staff">Non-respect des staff</option>
               <option value="Use Bug">Use Bug</option>
               <option value="Vagabondage">Vagabondage</option>
               <option value="Missile illégal">Missile illégal</option>
@@ -1783,7 +1783,7 @@
 </div>`;
       },
       
-      // Non-respect des Règles Warzone
+      // Non-respect des staff
       'Non-respect des staff': (accuse, victime, pseudo) => {
         return `<div style="margin: auto; width: 100%; background: #0a0a0a; border-left: 4px solid #2ecc71; padding: 20px 30px;">
   <div style="text-align: center; margin-bottom: 20px;">
@@ -1814,7 +1814,7 @@
       </div>
       <div style="background: #1a1a1a; padding: 15px; border-radius: 6px; border: 1px solid #333;">
         <div style="color: #888; font-size: 12px; margin-bottom: 5px;">INFRACTION</div>
-        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">Non-respect des Règles Warzone</div>
+        <div style="color: #ffffff; font-size: 16px; font-weight: bold;">Non-respect des staff</div>
       </div>
     </div>
     
@@ -3268,17 +3268,146 @@
     }
 
     // Fonction pour copier le contenu
-    function copierReponse(outputId) {
-      const output = document.getElementById(outputId);
-      const range = document.createRange();
-      range.selectNode(output);
-      window.getSelection().removeAllRanges();
-      window.getSelection().addRange(range);
-      document.execCommand('copy');
-      window.getSelection().removeAllRanges();
+    // REMPLACER la fonction copierReponse par celle-ci :
 
-      showNotification('Contenu copié dans le presse-papiers !');
+function copierReponse(elementId) {
+  const outputElement = document.getElementById(elementId);
+
+  // Messages par défaut à ignorer
+  const defaultMessages = [
+    'La réponse apparaîtra ici après avoir cliqué sur "Générer la réponse".',
+    'La réponse de guerre apparaîtra ici.',
+    'L\'avis de candidature apparaîtra ici.',
+    'La décision de candidature apparaîtra ici.',
+    'La décision d\'appel apparaîtra ici.',
+    'La communication OP apparaîtra ici.'
+  ];
+
+  // Vérifie si l'élément existe et si son contenu n'est PAS un des messages par défaut
+  if (outputElement) {
+    const htmlContent = outputElement.innerHTML;
+    const textContent = outputElement.textContent || outputElement.innerText;
+    
+    // Vérifie si c'est un message par défaut
+    let isDefaultMessage = false;
+    for (const msg of defaultMessages) {
+      if (textContent.trim() === msg || htmlContent.includes(msg)) {
+        isDefaultMessage = true;
+        break;
+      }
     }
+
+    if (!isDefaultMessage && htmlContent.trim() !== '') {
+      // CORRECTION : Copier le HTML BRUT tel quel
+      // Ça permettra de coller sur un forum qui supporte HTML
+      const htmlToCopy = htmlContent;
+      
+      // Essayer de copier en tant que HTML d'abord
+      if (navigator.clipboard && window.ClipboardItem) {
+        try {
+          const blob = new Blob([htmlToCopy], { type: 'text/html' });
+          const textBlob = new Blob([textContent], { type: 'text/plain' });
+          
+          const clipboardItem = new ClipboardItem({
+            'text/html': blob,
+            'text/plain': textBlob
+          });
+          
+          navigator.clipboard.write([clipboardItem]).then(() => {
+            showNotification('Code HTML copié avec succès ! Collez-le sur un forum supportant HTML.');
+          }).catch(err => {
+            console.error('Erreur copie HTML: ', err);
+            // Fallback : copier comme texte simple
+            fallbackCopyTextToClipboard(htmlToCopy);
+            showNotification('HTML copié (méthode de secours).');
+          });
+        } catch (err) {
+          console.error('Erreur création ClipboardItem: ', err);
+          fallbackCopyTextToClipboard(htmlToCopy);
+          showNotification('HTML copié.');
+        }
+      } else {
+        // Méthode de secours pour les navigateurs plus anciens
+        fallbackCopyTextToClipboard(htmlToCopy);
+        showNotification('HTML copié (ancien navigateur).');
+      }
+    } else {
+      showNotification('Aucune réponse à copier', true);
+    }
+  } else {
+    showNotification('Élément non trouvé', true);
+  }
+}
+    // REMPLACER la fonction copierReponse par celle-ci :
+
+function copierReponse(elementId) {
+  const outputElement = document.getElementById(elementId);
+
+  // Messages par défaut à ignorer
+  const defaultMessages = [
+    'La réponse apparaîtra ici après avoir cliqué sur "Générer la réponse".',
+    'La réponse de guerre apparaîtra ici.',
+    'L\'avis de candidature apparaîtra ici.',
+    'La décision de candidature apparaîtra ici.',
+    'La décision d\'appel apparaîtra ici.',
+    'La communication OP apparaîtra ici.'
+  ];
+
+  // Vérifie si l'élément existe et si son contenu n'est PAS un des messages par défaut
+  if (outputElement) {
+    const htmlContent = outputElement.innerHTML;
+    const textContent = outputElement.textContent || outputElement.innerText;
+    
+    // Vérifie si c'est un message par défaut
+    let isDefaultMessage = false;
+    for (const msg of defaultMessages) {
+      if (textContent.trim() === msg || htmlContent.includes(msg)) {
+        isDefaultMessage = true;
+        break;
+      }
+    }
+
+    if (!isDefaultMessage && htmlContent.trim() !== '') {
+      // CORRECTION : Copier le HTML BRUT tel quel
+      // Ça permettra de coller sur un forum qui supporte HTML
+      const htmlToCopy = htmlContent;
+      
+      // Essayer de copier en tant que HTML d'abord
+      if (navigator.clipboard && window.ClipboardItem) {
+        try {
+          const blob = new Blob([htmlToCopy], { type: 'text/html' });
+          const textBlob = new Blob([textContent], { type: 'text/plain' });
+          
+          const clipboardItem = new ClipboardItem({
+            'text/html': blob,
+            'text/plain': textBlob
+          });
+          
+          navigator.clipboard.write([clipboardItem]).then(() => {
+            showNotification('Code HTML copié avec succès ! Collez-le sur un forum supportant HTML.');
+          }).catch(err => {
+            console.error('Erreur copie HTML: ', err);
+            // Fallback : copier comme texte simple
+            fallbackCopyTextToClipboard(htmlToCopy);
+            showNotification('HTML copié (méthode de secours).');
+          });
+        } catch (err) {
+          console.error('Erreur création ClipboardItem: ', err);
+          fallbackCopyTextToClipboard(htmlToCopy);
+          showNotification('HTML copié.');
+        }
+      } else {
+        // Méthode de secours pour les navigateurs plus anciens
+        fallbackCopyTextToClipboard(htmlToCopy);
+        showNotification('HTML copié (ancien navigateur).');
+      }
+    } else {
+      showNotification('Aucune réponse à copier', true);
+    }
+  } else {
+    showNotification('Élément non trouvé', true);
+  }
+}
 
     // Afficher une notification
     function showNotification(message, isError = false) {
