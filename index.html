@@ -2765,6 +2765,13 @@
       <div style="color: ${couleur}; font-size: 24px; font-weight: bold; margin-bottom: 15px;"> ${decisionText} </div>
       <div style="color: #e0e0e0; font-size: 16px;">
         Suite à l'étude approfondie de votre candidature et la consultation du staff, nous vous informons que votre candidature est <span style="color: ${couleur}; font-weight: bold;">${decision === 'acceptee' ? 'Acceptée' : 'Refusée'}</span>.
+        ${decision === 'acceptee' ? `
+      <div style="margin-top: 20px; font-size: 15px; color: #ffffff;">
+        Vous êtes donc convié à un 
+        <span style="color: ${couleur}; font-weight: bold;">entretien oral sur Discord</span>
+        avec un OP, dès que possible.
+      </div>
+    ` : ''}
       </div>
     </div>
     
@@ -3463,6 +3470,7 @@ function copierReponse(elementId) {
   </script>
 </body>
 </html>
+
 
 
 
